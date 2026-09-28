@@ -450,7 +450,9 @@
    "short": "건보",
    "role": "행정 6급가 (권역별, 서울권 가능)",
    "url": "https://job.alio.go.kr/recruitview.do?idx=305006",
-   "status": "지원 검토",
+   "status": "미지원",
+   "hidden": true,
+   "memo": "패스 — 마감 9.29 14:00·정성평가·법률 과목",
    "stages": [
     {
      "type": "서류",
@@ -949,6 +951,41 @@
    ]
   },
   {
+   "id": "lh-2026h2",
+   "org": "한국토지주택공사",
+   "short": "LH",
+   "role": "신입 5급(채용형 인턴) 일반행정 수도권 · 인턴 월 301만 → 5급 정규직",
+   "url": "https://lh.incruit.com/hire/hirelist.asp",
+   "memo": "성실인턴 가산점(서류 5%) '대상자 불일치' → 9.29 점심 콜센터 02-2038-6740~2 문의",
+   "stages": [
+    {
+     "type": "서류",
+     "date": "2026-09-29",
+     "label": "원서 마감",
+     "time": "17:00",
+     "note": "제출 완료 (9.28) · 어학 70 + 자격증 등 30 + 가산점 · 30배수 · 자소서 없음",
+     "result": "done"
+    },
+    {
+     "type": "필기",
+     "label": "직무능력검사 (날짜 확인 필요)",
+     "announce": "2026-11-05",
+     "note": "NCS 40문항 20% + 직무역량 60문항 80% (일반행정 선택 과목)",
+     "result": "pending"
+    },
+    {
+     "type": "면접",
+     "label": "집단발표 + 개별역량 면접",
+     "result": "pending"
+    },
+    {
+     "type": "최종",
+     "date": "2026-12-28",
+     "label": "채용형 인턴 임용",
+     "result": "pending"
+    }
+   ]
+  },  {
    "id": "kisa-2026",
    "org": "한국인터넷진흥원",
    "short": "KISA",
