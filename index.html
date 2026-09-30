@@ -180,6 +180,7 @@ button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
 .cell.today .dn{background:var(--accent);color:var(--bg)}
 .chip{font-size:10.5px;line-height:1.35;padding:1px 3px;border-left:2.5px solid;background:var(--surface);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:100%}
 .chip.locked{opacity:.45;border-left-style:dashed}
+.chip.auto{border-left-style:dotted;font-style:italic;opacity:.8}
 .c-doc{border-color:var(--c-doc);color:var(--c-doc)} .c-test{border-color:var(--c-test);color:var(--c-test)}
 .c-int{border-color:var(--c-int);color:var(--c-int)} .c-ann{border-color:var(--c-ann);color:var(--c-ann)} .c-per{border-color:var(--c-per);color:var(--c-per)}
 .more{font-size:10px;color:var(--muted);padding-left:3px}
@@ -598,11 +599,36 @@ function loadCal(cb){
   if(typeof fetch!=="function"){ calErr="fetch 미지원"; cb&&cb(); return; }
   var sep=u.indexOf("?")>=0?"&":"?";
   fetch(u+sep+"t="+Date.now(),{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
-  .then(function(j){ applyCal(j); calErr=null; calAt=new Date(); try{localStorage.setItem("cal.cache",JSON.stringify(j));}catch(e){} cb&&cb(); })
+  .then(function(j){ applyCal(j); calErr=null; calAt=new Date(); try{localStorage.setItem("cal.cache",JSON.stringify(j));}catch(e){} loadAlio(cb); })
   .catch(function(e){ calErr=e.message||String(e);
     if(!CAL){ try{ var c=localStorage.getItem("cal.cache"); if(c) applyCal(JSON.parse(c)); }catch(_){} }
-    cb&&cb(); });
+    loadAlio(cb); });
 }
+/* ===== 알리오 자동 공고 (alio.json, GitHub Actions가 매일 갱신) ===== */
+var ALIO=null, alioHidden={};
+try{ alioHidden=JSON.parse(localStorage.getItem("alio.hidden")||"{}")||{}; }catch(e){ alioHidden={}; }
+function loadAlio(cb){
+  fetch("./alio.json?t="+Date.now(),{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+  .then(function(j){ ALIO=j; try{localStorage.setItem("alio.cache",JSON.stringify(j));}catch(e){} cb&&cb(); })
+  .catch(function(){ if(!ALIO){ try{ var c=localStorage.getItem("alio.cache"); if(c) ALIO=JSON.parse(c); }catch(_){} } cb&&cb(); });
+}
+function nameKey(s){ return String(s||"").replace(/\s+/g,"").replace(/^\(주\)|^주식회사/,""); }
+function alioDup(a){
+  // 이미 calendar.json에서 관리 중인 공고면 숨김 (같은 기관 + 마감일 ±3일)
+  if(!CAL||!Array.isArray(CAL.jobs)) return false;
+  var ak=nameKey(a.org), ad=a.stages&&a.stages[0]&&a.stages[0].date;
+  return CAL.jobs.some(function(j){
+    var k=nameKey(j.org); if(!k||!(k.indexOf(ak)>=0||ak.indexOf(k)>=0)) return false;
+    var d=j.stages&&j.stages[0]&&j.stages[0].date; if(!d||!ad) return true;
+    return Math.abs(pISO(d)-pISO(ad))<=3*86400000;
+  });
+}
+function jobsAll(){
+  var base=(CAL&&Array.isArray(CAL.jobs))?CAL.jobs.slice():[];
+  if(ALIO&&Array.isArray(ALIO.jobs)) ALIO.jobs.forEach(function(a){ if(!alioHidden[a.id]&&!alioDup(a)) base.push(a); });
+  return base;
+}
+function hideAlio(id){ alioHidden[id]=1; try{localStorage.setItem("alio.hidden",JSON.stringify(alioHidden));}catch(e){} }
 function pISO(iso){ var p=String(iso).split("-"); return new Date(+p[0],+p[1]-1,+p[2]); }
 function isPass(r){ return r==="pass"||r==="done"; }
 function stageInfo(j){
@@ -620,15 +646,15 @@ function jobStatus(j){
 }
 function tcls(t){ t=t||""; if(/어학|자격|오픽|OPIc|토익|TOEIC|개인|시험일/.test(t)) return "c-per"; if(/서류|접수|원서/.test(t)) return "c-doc"; if(/필기|인성|시험|실기|논술/.test(t)) return "c-test"; if(/면접/.test(t)) return "c-int"; return "c-ann"; }
 function jobEvents(withLocked){
-  var ev=[]; if(!CAL||!Array.isArray(CAL.jobs)) return ev;
-  CAL.jobs.forEach(function(j){
+  var ev=[]; var jobs=jobsAll(); if(!jobs.length) return ev;
+  jobs.forEach(function(j){
     if(j.hidden) return;
     var nm=j.short||j.org||"";
     stageInfo(j).forEach(function(x){
       if(x.locked&&!withLocked) return;
       var st=x.s;
       if(st.date){
-        var base={org:nm,full:j.org,type:st.type||"",locked:x.locked,place:st.place||"",note:st.note||"",r:x.r,per:false};
+        var base={org:nm,full:j.org+(j.auto?" (추천 "+j.score+"점)":""),type:st.type||"",locked:x.locked,place:st.place||"",note:st.note||"",r:x.r,per:false,auto:!!j.auto};
         spanPush(ev,base,st.date,st.end,(st.label||st.type||"")+(st.time?" "+st.time:""));
       }
       if(st.announce) ev.push({date:st.announce,org:nm,full:j.org,type:"발표",label:(st.type||"")+" 발표",locked:x.locked,place:"",note:"",r:x.r});
@@ -698,7 +724,7 @@ function calView(){
     var list=map[key]||[];
     h+='<button class="cell'+(d.getMonth()!==calM?' out':'')+(key===today?' today':'')+(key===calSel?' sel':'')+'" data-d="'+key+'">'+
        '<span class="dn'+(d.getDay()===0?' sun':'')+'">'+d.getDate()+'</span>';
-    list.slice(0,2).forEach(function(e){ h+='<span class="chip '+tcls(e.type)+(e.locked?' locked':'')+'">'+esc(e.org)+'·'+esc(e.type)+'</span>'; });
+    list.slice(0,2).forEach(function(e){ h+='<span class="chip '+tcls(e.type)+(e.locked?' locked':'')+(e.auto?' auto':'')+'">'+esc(e.org)+'·'+esc(e.type)+'</span>'; });
     if(list.length>2) h+='<span class="more">+'+(list.length-2)+'</span>';
     h+='</button>';
   }
@@ -766,14 +792,15 @@ function jobCard(j){
        '<span class="sr '+i.r+'">'+rs+'</span></div>';
   });
   if(j.url) x+='<a href="'+esc(j.url)+'" target="_blank" rel="noopener noreferrer">공고 보기 ↗</a>';
-  if(j.memo) x+='<p class="note" style="margin:4px 0 10px">'+esc(j.memo)+'</p>';
+  if(j.memo) x+='<p class="note" style="margin:4px 0 10px;white-space:pre-line">'+esc(j.memo)+'</p>';
+  if(j.auto) x+='<button class="btn quiet" data-hide="'+esc(j.id)+'" style="margin:0 0 10px">관심 없음 · 숨기기</button>';
   return x+'</div>';
 }
 function jobsView(){
   view="jobs"; setDock(null); calcToggle(false); toTop();
   var h=topMenu("공고 현황");
-  if(!CAL||!Array.isArray(CAL.jobs)){ h+='<div class="warn">캘린더 데이터가 없습니다. 메뉴 → 캘린더 설정을 확인하세요.</div>'; app.innerHTML=h; bindMenu(); return; }
-  var all=CAL.jobs.slice(), cnt={"전체":0}, extra=[];
+  var all=jobsAll(), cnt={"전체":0}, extra=[];
+  if(!all.length){ h+='<div class="warn">캘린더 데이터가 없습니다. 메뉴 → 캘린더 설정을 확인하세요.</div>'; app.innerHTML=h; bindMenu(); return; }
   all.forEach(function(j){ var c=jobCat(j); cnt[c]=(cnt[c]||0)+1; if(c!=="숨김") cnt["전체"]++;
     if(JCATS.indexOf(c)<0&&c!=="숨김"&&extra.indexOf(c)<0) extra.push(c); });
   var order=["전체"].concat(JCATS,extra,["숨김"]).filter(function(c){ return c==="전체"||cnt[c]; });
@@ -781,7 +808,7 @@ function jobsView(){
   h+='<div class="segbar" id="seg">';
   order.forEach(function(c){ h+='<button data-f="'+esc(c)+'"'+(c===jobsFilter?' class="on"':'')+'>'+esc(c)+'<b>'+cnt[c]+'</b></button>'; });
   h+='</div>';
-  if(CAL.updated) h+='<p class="note" style="margin-top:10px">최종 갱신 '+esc(CAL.updated)+'</p>';
+  if(CAL&&CAL.updated) h+='<p class="note" style="margin-top:10px">최종 갱신 '+esc(CAL.updated)+(ALIO&&ALIO.updated?' · 알리오 자동 수집 '+esc(ALIO.updated):'')+'</p>';
   var list=all.filter(function(j){ var c=jobCat(j); return jobsFilter==="전체"?c!=="숨김":c===jobsFilter; });
   list.sort(function(a,b){ var ka=jobSortKey(a), kb=jobSortKey(b); return ka<kb?-1:(ka>kb?1:0); });
   if(jobsFilter==="전체"){
@@ -797,6 +824,7 @@ function jobsView(){
     list.forEach(function(j){ h+=jobCard(j); });
   }
   app.innerHTML=h; bindMenu();
+  Array.prototype.forEach.call(app.querySelectorAll("[data-hide]"),function(b){ b.onclick=function(){ hideAlio(b.getAttribute("data-hide")); jobsView(); }; });
   Array.prototype.forEach.call(app.querySelectorAll("[data-f]"),function(b){
     b.onclick=function(){ jobsFilter=b.getAttribute("data-f"); try{localStorage.setItem("jobs.filter",jobsFilter);}catch(e){} jobsView();
       var on=document.querySelector("#seg .on"); if(on&&on.scrollIntoView) on.scrollIntoView({inline:"center",block:"nearest"}); };
