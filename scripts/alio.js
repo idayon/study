@@ -22,8 +22,12 @@ function score(it, cfg){
   const reasons = [];
 
   if (cfg.excludeReplacement && it.replmprYn === "Y") return null;
-  if (has(hire, cfg.excludeHire)) return null;
+  // 정규직·채용형 인턴이 하나라도 있어야 통과 (비정규직만, 무기계약직만인 공고는 제외)
+  if (!hire.split(",").map(s => s.trim()).some(h => cfg.allowHire.includes(h))) return null;
   if (cfg.excludeCareerOnly && /경력/.test(it.recrutSeNm || "") && !/신입/.test(it.recrutSeNm || "")) return null;
+  if (has(org, cfg.excludeOrgKeywords)) return null;
+  const title = String(it.recrutPbancTtl || "").split(org).join(" ");   // 기관명 속 '연구원' 같은 단어는 빼고 검사
+  if (has(title, cfg.excludeTitle)) return null;
 
   const regionKeys = Object.keys(cfg.regionScore);
   let best = regions.length ? 0 : cfg.regionDefault, bestName = "";
@@ -35,9 +39,12 @@ function score(it, cfg){
   if (!regions.length) bestName = "근무지 미기재";
 
   const topCities = ["서울", "세종", "대전", "부산"];
+  let hqWarn = "";
   for (const [city, orgs] of Object.entries(cfg.excludeOrgs)){
     if (city.startsWith("_")) continue;
-    if (orgs.some(o => norm(org).includes(norm(o))) && !regions.some(r => has(r, topCities))) return null;
+    if (!orgs.some(o => norm(org).includes(norm(o)))) continue;
+    if (!regions.some(r => has(r, topCities))) return null;
+    if (!has(it.recrutPbancTtl, topCities)) hqWarn = `⚠️ 본사 ${city} — 실제 근무지 확인`;
   }
 
   let s = best; reasons.push(`${bestName} ${best}`);
@@ -48,7 +55,7 @@ function score(it, cfg){
   if (has(it.ncsCdNmLst, cfg.officeNcs)){ s += cfg.officeBonus; reasons.push(`사무 +${cfg.officeBonus}`); }
 
   if (s < cfg.minScore && !finance) return null;
-  return { score: s, reasons, finance, intern: /인턴/.test(hire) };
+  return { score: s, reasons, finance, intern: /인턴/.test(hire), hqWarn };
 }
 
 function toJob(it, sc){
@@ -56,7 +63,8 @@ function toJob(it, sc){
   const memo = [
     `추천 ${sc.score}점 · ${sc.reasons.join(" · ")}`,
     [it.hireTypeNmLst, it.recrutSeNm, it.recrutNope ? `${it.recrutNope}명` : "", it.workRgnNmLst].filter(Boolean).join(" · "),
-    sc.intern ? "⚠️ 채용형 인턴 — 인턴 기간 급여 확인" : ""
+    sc.intern ? "⚠️ 채용형 인턴 — 인턴 기간 급여 확인" : "",
+    sc.hqWarn
   ].filter(Boolean).join("\n");
   return {
     id: "alio-" + it.recrutPblntSn,
