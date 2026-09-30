@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>경제적 자유 탑승권</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: 왼쪽 조종판(입력), 오른쪽 탑승권(결과) + 비행 경로(차트). 좁은 화면에선 결과 → 입력 순으로 쌓임 */
+:root{
+  --bg:#EEF2F1; --paper:#FFFFFF; --ink:#16252B; --muted:#5A6C71; --line:#D3DCDA;
+  --accent:#0E7A6B; --accent-soft:#D6EDE8; --gold:#C98A1E; --gold-soft:#F6E7C8; --warn:#B4452F;
+  --display:"Gowun Batang",Georgia,serif;
+  --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1719; --paper:#172226; --ink:#E4ECEB; --muted:#93A5A8; --line:#2A393D;
+  --accent:#3FBFA9; --accent-soft:#173A36; --gold:#E3AE4F; --gold-soft:#3A2F18; --warn:#E8816B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1719; --paper:#172226; --ink:#E4ECEB; --muted:#93A5A8; --line:#2A393D;
+  --accent:#3FBFA9; --accent-soft:#173A36; --gold:#E3AE4F; --gold-soft:#3A2F18; --warn:#E8816B; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;padding:28px 16px 48px}
+.num{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.num input{width:110px;font-family:var(--mono);font-size:14px;padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.reset{justify-self:start;font:inherit;font-size:13px;color:var(--accent);background:transparent;border:1px solid var(--accent);border-radius:8px;padding:6px 12px;cursor:pointer}
+.wrap{max-width:1120px;margin:0 auto;display:grid;gap:24px}
+header h1{font-family:var(--display);font-size:clamp(26px,4vw,36px);margin:0;text-wrap:balance;letter-spacing:-.01em}
+header p{margin:6px 0 0;color:var(--muted);max-width:62ch}
+.grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}.panel{order:2}.results{order:1}}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:22px}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:14px}
+legend{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--accent);margin-bottom:10px;padding:0}
+.f{display:grid;gap:4px}
+.f .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.f label{font-size:14px}
+.f output{font-family:var(--mono);font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.f small{color:var(--muted);font-size:12px}
+input[type=range]{width:100%;accent-color:var(--accent);margin:2px 0}
+input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.toggle{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.toggle input{width:18px;height:18px;accent-color:var(--accent)}
+.results{display:grid;gap:20px;min-width:0}
+
+/* 탑승권 */
+.ticket{background:var(--paper);border:1px solid var(--line);border-radius:14px;display:grid;grid-template-columns:minmax(0,1fr) 190px;overflow:hidden}
+.ticket .main{padding:20px 22px;display:grid;gap:16px;min-width:0}
+.ticket .stub{border-left:2px dashed var(--line);padding:20px 18px;display:grid;gap:10px;align-content:start;background:var(--accent-soft)}
+@media (max-width:560px){.ticket{grid-template-columns:minmax(0,1fr)}.ticket .stub{border-left:0;border-top:2px dashed var(--line)}}
+.tk-label{font-size:11px;letter-spacing:.12em;color:var(--muted);font-weight:600}
+.route{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.route .end{display:grid;gap:2px}
+.route .code{font-family:var(--mono);font-size:clamp(28px,5vw,40px);font-weight:600;line-height:1}
+.route .end.to .code{color:var(--accent)}
+.route .end span:last-child{font-size:13px;color:var(--muted)}
+.route .path{height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 14px);position:relative}
+.route .path::after{content:"✈";position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);color:var(--accent);background:var(--paper);padding:0 6px;font-size:18px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:560px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.fact{display:grid;gap:2px}
+.fact b{font-family:var(--mono);font-size:18px;font-variant-numeric:tabular-nums}
+.stub .big{font-family:var(--mono);font-size:30px;font-weight:600;line-height:1.1}
+.stub p{margin:0;font-size:13px;color:var(--muted)}
+.status{font-size:13px;padding:8px 12px;border-radius:8px;background:var(--gold-soft);color:var(--ink)}
+.status.bad{background:transparent;border:1px solid var(--warn);color:var(--warn)}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;min-width:0}
+.card h2{font-size:15px;margin:0 0 10px;font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin-bottom:6px}
+.legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+.chart{width:100%;height:auto;display:block}
+.chart text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.miles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:560px){.miles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mile{border-top:3px solid var(--line);padding-top:8px;display:grid;gap:2px}
+.mile.hit{border-color:var(--accent)}
+.mile span{font-size:12px;color:var(--muted)}
+.mile b{font-family:var(--mono);font-size:17px}
+.notes{font-size:13px;color:var(--muted);margin:0;padding-left:18px;display:grid;gap:4px}
+@media (prefers-reduced-motion:no-preference){.chart path.assets{transition:d .25s}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>경제적 자유 탑승권</h1>
+    <p>숫자를 바꾸면 "몇 살에 일 안 하고 여행하며 살 수 있는지"가 바로 계산돼요. 처음 숫자는 예시예요. 내 숫자로 바꾸면 이 브라우저에 저장돼요.</p>
+  </header>
+
+  <div class="grid">
+    <form class="panel" id="form" onsubmit="return false">
+      <fieldset>
+        <legend>지금 나</legend>
+        <div class="f"><div class="top"><label for="age0">지금 나이</label><output id="o-age0"></output></div><input type="range" id="age0" min="20" max="40" step="1" value="28"></div>
+        <div class="f"><div class="top"><label for="assets0">지금 모은 돈</label><output id="o-assets0"></output></div><input type="range" id="assets0" min="0" max="10000" step="100" value="3000"></div>
+        <div class="f"><div class="top"><label for="save0">한 달 저축액</label><output id="o-save0"></output></div><input type="range" id="save0" min="20" max="400" step="5" value="100"><small>적금·청약·ISA·투자 등 모든 저축을 더한 금액</small></div>
+        <div class="f"><div class="top"><label for="g">저축액이 매년 늘어나는 비율</label><output id="o-g"></output></div><input type="range" id="g" min="0" max="10" step="0.5" value="5"><small>연봉 인상·이직으로 저축도 같이 늘어난다고 가정</small></div>
+        <div class="f"><div class="top"><label for="r">투자 수익률 (물가 뺀 값)</label><output id="o-r"></output></div><input type="range" id="r" min="0" max="8" step="0.5" value="4"><small>예금만 하면 0~1%, 주식 지수 장기 평균은 대략 4~6%</small></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>은퇴 후 생활</legend>
+        <div class="f"><div class="top"><label for="live">한 달 생활비</label><output id="o-live"></output></div><input type="range" id="live" min="100" max="600" step="10" value="250"></div>
+        <div class="f"><div class="top"><label for="travel">1년 여행비</label><output id="o-travel"></output></div><input type="range" id="travel" min="0" max="3000" step="100" value="500"><small>500만 원이면 도쿄 3박4일(약 153만)을 1년에 3번 정도</small></div>
+        <div class="f"><div class="top"><label for="wr">1년에 꺼내 쓰는 비율</label><output id="o-wr"></output></div><input type="range" id="wr" min="2.5" max="5" step="0.1" value="3.5"><small>일찍 은퇴할수록 오래 버텨야 해서 낮게 (보통 3~4%)</small></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>내 집</legend>
+        <label class="toggle"><input type="checkbox" id="buy" checked> 집 사는 것 포함</label>
+        <div class="f"><div class="top"><label for="buyAge">집 사는 나이</label><output id="o-buyAge"></output></div><input type="range" id="buyAge" min="25" max="45" step="1" value="30"></div>
+        <div class="f"><div class="top"><label for="priceRange">목표 집값</label><output id="o-price"></output></div><input type="range" id="priceRange" min="10000" max="150000" step="500" value="40000">
+          <div class="num"><input type="number" id="price" min="5000" max="500000" step="500" value="40000" aria-label="목표 집값 직접 입력(만 원)"><span>만 원 (직접 입력)</span></div></div>
+        <div class="f"><div class="top"><label for="ltv">대출 비율</label><output id="o-ltv"></output></div><input type="range" id="ltv" min="0" max="80" step="5" value="80"></div>
+        <div class="f"><div class="top"><label for="rate">대출 금리</label><output id="o-rate"></output></div><input type="range" id="rate" min="1.5" max="6" step="0.1" value="2.5"></div>
+        <div class="f"><div class="top"><label for="term">대출 기간</label><output id="o-term"></output></div><input type="range" id="term" min="10" max="50" step="5" value="40"></div>
+        <div class="f"><div class="top"><label for="rent">지금 월세 (집 사면 안 냄)</label><output id="o-rent"></output></div><input type="range" id="rent" min="0" max="150" step="1" value="50"></div>
+      </fieldset>
+      <button type="button" class="reset" id="reset">처음 값으로 되돌리기</button>
+    </form>
+
+    <section class="results" aria-live="polite">
+      <article class="ticket">
+        <div class="main">
+          <div class="tk-label">BOARDING PASS · 경제적 자유행</div>
+          <div class="route">
+            <div class="end"><span class="code" id="t-from"></span><span>지금</span></div>
+            <div class="path" aria-hidden="true"></div>
+            <div class="end to"><span class="code" id="t-to"></span><span id="t-year"></span></div>
+          </div>
+          <div class="facts">
+            <div class="fact"><span class="tk-label">필요한 돈</span><b id="t-target"></b></div>
+            <div class="fact"><span class="tk-label">35살 때 자산</span><b id="t-35"></b></div>
+            <div class="fact"><span class="tk-label">월 대출 상환</span><b id="t-pay"></b></div>
+          </div>
+          <div class="status" id="t-status"></div>
+        </div>
+        <div class="stub">
+          <span class="tk-label">35살에 은퇴하려면</span>
+          <span class="big" id="t-need"></span>
+          <p id="t-need-note"></p>
+        </div>
+      </article>
+
+      <div class="card">
+        <h2>비행 경로</h2>
+        <div class="legend">
+          <span><i style="background:var(--accent)"></i>금융자산 (집 제외)</span>
+          <span><i style="background:var(--gold)"></i>필요한 돈 (+ 남은 대출)</span>
+        </div>
+        <svg class="chart" id="chart" viewBox="0 0 720 300" role="img" aria-label="나이별 금융자산과 목표 금액"></svg>
+      </div>
+
+      <div class="card">
+        <h2>중간 경유지</h2>
+        <div class="miles" id="miles"></div>
+      </div>
+
+      <div class="card">
+        <h2>계산 방식</h2>
+        <ul class="notes">
+          <li>모든 금액은 <b>오늘 돈의 가치</b>예요. 수익률도 물가 상승을 뺀 값이에요.</li>
+          <li>필요한 돈 = (한 달 생활비 × 12 + 1년 여행비) ÷ 꺼내 쓰는 비율. 은퇴 시점에 남은 대출도 갚을 수 있어야 은퇴로 봐요.</li>
+          <li>집을 사면 자기 돈(집값 − 대출)과 취득세·중개비 약 1.5%가 빠지고, 이후 월세 대신 대출 상환액을 내요.</li>
+          <li>국민연금, 퇴직금, 성과급, 공모주 수익은 넣지 않았어요. 실제로는 이만큼 더 유리해요.</li>
+          <li>계산용 참고 도구이고 투자 조언이 아니에요.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const ids = ["age0","assets0","save0","g","r","live","travel","wr","buyAge","price","ltv","rate","term","rent"];
+const NOW_YEAR = new Date().getFullYear();
+
+function won(m){ // 만원 단위 → 보기 좋은 문자열
+  const neg = m < 0; m = Math.abs(m);
+  let s;
+  if (m >= 10000){ const e = m/10000; s = (e >= 10 ? e.toFixed(1) : e.toFixed(2)).replace(/\.?0+$/,"") + "억"; }
+  else s = Math.round(m).toLocaleString("ko-KR") + "만";
+  return (neg ? "−" : "") + s;
+}
+const fmt = {
+  age0:v=>v+"살", assets0:v=>won(+v), save0:v=>v+"만", g:v=>v+"%", r:v=>v+"%",
+  live:v=>v+"만", travel:v=>won(+v), wr:v=>(+v).toFixed(1)+"%", buyAge:v=>v+"살",
+  price:v=>won(+v), ltv:v=>v+"%", rate:v=>(+v).toFixed(1)+"%", term:v=>v+"년", rent:v=>v+"만"
+};
+
+function read(){
+  const p = {}; ids.forEach(k => p[k] = +$(k).value); p.buy = $("buy").checked;
+  p.price = Math.max(5000, p.price || 0); return p;
+}
+
+function payment(P, annual, years){
+  const i = annual/100/12, n = years*12;
+  return i === 0 ? P/n : P*i/(1-Math.pow(1+i,-n));
+}
+
+function simulate(p, save0){
+  const rm = Math.pow(1 + p.r/100, 1/12) - 1;
+  const target = (p.live*12 + p.travel) / (p.wr/100);
+  const loan = p.price * p.ltv/100;
+  const down = p.price - loan + p.price*0.015;
+  const pay = payment(loan, p.rate, p.term);
+  let a = p.assets0, bal = 0, bought = false, boughtAge = null, retireAge = null;
+  const pts = [];
+  const maxM = (80 - p.age0) * 12;
+  for (let m = 0; m <= maxM; m++){
+    const age = p.age0 + m/12;
+    if (m % 12 === 0) pts.push({age, a, need: target + bal});
+    if (retireAge === null && a >= target + bal && m > 0) retireAge = age;
+    if (p.buy && !bought && age >= p.buyAge && a >= down){
+      a -= down; bal = loan; bought = true; boughtAge = age;
+    }
+    let s = save0 * Math.pow(1 + p.g/100, Math.floor(m/12));
+    if (bought && bal > 0){
+      const interest = bal * p.rate/100/12;
+      const principal = Math.min(pay - interest, bal);
+      bal -= principal; s += p.rent - (principal + interest);
+    }
+    a = a*(1+rm) + s;
+  }
+  return {pts, retireAge, target, pay, bought, boughtAge, down, loan};
+}
+
+function needFor35(p){
+  if (p.age0 >= 35) return null;
+  let lo = 0, hi = 5000;
+  if ((simulate(p, hi).retireAge ?? 99) > 35.001) return Infinity;
+  for (let k = 0; k < 40; k++){
+    const mid = (lo+hi)/2, r = simulate(p, mid).retireAge;
+    if (r !== null && r <= 35.001) hi = mid; else lo = mid;
+  }
+  return hi;
+}
+
+function drawChart(res, p){
+  const svg = $("chart"), W = 720, H = 300, L = 52, R = 16, T = 16, B = 34;
+  const endAge = Math.min(80, Math.max(50, Math.ceil((res.retireAge ?? 60) + 4)));
+  const pts = res.pts.filter(d => d.age <= endAge);
+  const maxY = Math.max(...pts.map(d => Math.max(d.a, d.need))) * 1.08;
+  const x = a => L + (a - p.age0)/(endAge - p.age0) * (W-L-R);
+  const y = v => T + (1 - Math.max(v,0)/maxY) * (H-T-B);
+  const stepY = [5000,10000,20000,50000,100000,200000].find(s => maxY/s <= 6) || 500000;
+  let g = "";
+  for (let v = 0; v <= maxY; v += stepY){
+    g += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/>`;
+    g += `<text x="${L-8}" y="${y(v)+4}" text-anchor="end">${v===0?"0":won(v)}</text>`;
+  }
+  const stepX = endAge - p.age0 > 30 ? 10 : 5;
+  for (let a = Math.ceil(p.age0/stepX)*stepX; a <= endAge; a += stepX){
+    g += `<text x="${x(a)}" y="${H-12}" text-anchor="middle">${a}살</text>`;
+  }
+  const line = key => pts.map((d,i) => `${i?"L":"M"}${x(d.age).toFixed(1)},${y(d[key]).toFixed(1)}`).join("");
+  const area = line("a") + `L${x(pts[pts.length-1].age)},${y(0)}L${x(pts[0].age)},${y(0)}Z`;
+  g += `<path d="${area}" fill="var(--accent)" fill-opacity=".12" stroke="none"/>`;
+  g += `<path class="assets" d="${line("a")}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
+  g += `<path d="${line("need")}" fill="none" stroke="var(--gold)" stroke-width="2" stroke-dasharray="6 5"/>`;
+  if (x(35) < W-R && p.age0 < 35){
+    g += `<line x1="${x(35)}" x2="${x(35)}" y1="${T}" y2="${H-B}" stroke="var(--muted)" stroke-width="1" stroke-dasharray="2 4"/>`;
+    g += `<text x="${x(35)+4}" y="${T+10}">35살</text>`;
+  }
+  if (res.boughtAge !== null){
+    const d = pts.reduce((b,c) => Math.abs(c.age-res.boughtAge) < Math.abs(b.age-res.boughtAge) ? c : b);
+    g += `<circle cx="${x(res.boughtAge)}" cy="${y(d.a)}" r="4.5" fill="var(--paper)" stroke="var(--accent)" stroke-width="2"/>`;
+    g += `<text x="${x(res.boughtAge)+8}" y="${y(d.a)+16}">집</text>`;
+  }
+  if (res.retireAge !== null && res.retireAge <= endAge){
+    const d = pts.reduce((b,c) => Math.abs(c.age-res.retireAge) < Math.abs(b.age-res.retireAge) ? c : b);
+    g += `<circle cx="${x(res.retireAge)}" cy="${y(d.need)}" r="6" fill="var(--accent)"/>`;
+    g += `<text x="${x(res.retireAge)-8}" y="${y(d.need)-10}" text-anchor="end" style="fill:var(--ink);font-weight:600">자유 ${Math.ceil(res.retireAge)}살</text>`;
+  }
+  svg.innerHTML = g;
+}
+
+function render(){
+  const p = read();
+  ids.forEach(k => $("o-"+k).textContent = fmt[k]($(k).value));
+  $("priceRange").value = p.price;
+  $("o-price").textContent = won(p.price);
+  ["buyAge","priceRange","price","ltv","rate","term","rent"].forEach(k => { $(k).disabled = !p.buy; $(k).closest(".f").style.opacity = p.buy ? 1 : .45; });
+
+  const res = simulate(p, p.save0);
+  const ra = res.retireAge;
+  $("t-from").textContent = p.age0;
+  $("t-to").textContent = ra === null ? "80+" : Math.ceil(ra);
+  $("t-year").textContent = ra === null ? "80살 안에 도착 못 함" : `${NOW_YEAR + Math.ceil(ra - p.age0)}년쯤 경제적 자유`;
+  $("t-target").textContent = won(res.target);
+  const at35 = res.pts.find(d => Math.round(d.age) === 35);
+  $("t-35").textContent = at35 ? won(at35.a) : "—";
+  $("t-pay").textContent = p.buy ? won(res.pay) : "—";
+
+  const st = $("t-status"); st.className = "status";
+  if (p.buy && res.boughtAge !== null && res.boughtAge > p.buyAge + 0.01){
+    st.className = "status bad";
+    st.textContent = `${p.buyAge}살에는 집 살 자기 돈 ${won(res.down)}이 부족해서 ${Math.ceil(res.boughtAge)}살에 사는 걸로 계산했어요.`;
+  } else if (p.buy && !res.bought){
+    st.className = "status bad"; st.textContent = `자기 돈 ${won(res.down)}을 80살 안에 못 모아서 집을 못 사요.`;
+  } else if (ra !== null && ra <= 35){
+    st.textContent = "35살 안에 도착해요. 계획대로면 30대 은퇴 가능!";
+  } else if (ra !== null){
+    st.textContent = `35살엔 목표의 ${at35 ? Math.round(at35.a / (at35.need) * 100) : 0}%. 여행은 연차로 다니면서 ${Math.ceil(ra)}살에 완전히 자유로워지는 경로예요.`;
+  } else st.textContent = "저축액이나 수익률을 올리거나 생활비를 줄여 보세요.";
+
+  const need = needFor35(p);
+  if (need === null){ $("t-need").textContent = "—"; $("t-need-note").textContent = "이미 35살이 지났어요."; }
+  else if (!isFinite(need)){ $("t-need").textContent = "5천만+"; $("t-need-note").textContent = "지금 조건으로는 한 달 5천만 원을 넘게 모아야 해요."; }
+  else {
+    $("t-need").textContent = won(Math.ceil(need/5)*5);
+    $("t-need-note").textContent = need <= p.save0 ? "지금 저축액으로 충분해요." : `한 달에 이만큼 모아야 해요. 지금보다 ${won(Math.ceil((need - p.save0)/5)*5)} 더 필요해요.`;
+  }
+
+  const ms = [10000, 30000, 50000].map(v => {
+    const hit = res.pts.find(d => d.a >= v);
+    return `<div class="mile ${hit ? "hit" : ""}"><span>금융자산 ${won(v)}</span><b>${hit ? Math.round(hit.age)+"살" : "80+"}</b></div>`;
+  });
+  ms.push(`<div class="mile ${ra !== null ? "hit" : ""}"><span>경제적 자유</span><b>${ra !== null ? Math.ceil(ra)+"살" : "80+"}</b></div>`);
+  $("miles").innerHTML = ms.join("");
+  drawChart(res, p);
+}
+
+// 바꾼 값은 이 브라우저에 저장돼서 다음에 열어도 그대로 남아요
+const KEY = "freedom-ticket-v1";
+const defaults = {}; ids.forEach(k => defaults[k] = $(k).value); defaults.buy = $("buy").checked;
+function save(){
+  try { const s = {}; ids.forEach(k => s[k] = $(k).value); s.buy = $("buy").checked; localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){}
+}
+function load(){
+  try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (!s) return;
+    ids.forEach(k => { if (s[k] !== undefined) $(k).value = s[k]; }); if (s.buy !== undefined) $("buy").checked = s.buy; } catch(e){}
+}
+ids.forEach(k => $(k).addEventListener("input", () => { render(); save(); }));
+$("buy").addEventListener("change", () => { render(); save(); });
+$("priceRange").addEventListener("input", () => { $("price").value = $("priceRange").value; render(); save(); });
+$("reset").addEventListener("click", () => {
+  ids.forEach(k => $(k).value = defaults[k]); $("buy").checked = defaults.buy;
+  try { localStorage.removeItem(KEY); } catch(e){}
+  render();
+});
+load();
+render();
+</script>
+
+</body>
+</html>
