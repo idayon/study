@@ -1,5 +1,5 @@
 {
- "updated": "2026-09-30",
+ "updated": "2026-10-03",
  "jobs": [
   {
    "id": "kosaf-2026h2",
@@ -13,8 +13,8 @@
      "label": "원서 마감",
      "time": "17:00",
      "announce": "2026-10-02",
-     "result": "done",
-     "note": "제출 완료 · 합격 시 10.6(월) 12:00까지 응시정보 등록"
+     "result": "fail",
+     "note": "서류 탈락 (10.2 발표)"
     },
     {
      "type": "필기",
@@ -421,9 +421,9 @@
     },
     {
      "type": "필기",
-     "label": "직업기초능력평가 (10월 초, 대전)",
+     "label": "직업기초능력평가 · 합격",
      "note": "20배수 · 날짜 확인 필요",
-     "result": "pending"
+     "result": "pass"
     },
     {
      "type": "서류",
@@ -865,8 +865,8 @@
     },
     {
      "type": "필기",
-     "label": "1차 NCS 필기 (날짜 미확인)",
-     "result": "pending"
+     "label": "1차 NCS 필기 · 합격",
+     "result": "pass"
     },
     {
      "type": "필기",
