@@ -82,6 +82,7 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline
 .stub p{margin:0;font-size:13px;color:var(--muted)}
 .status{font-size:13px;padding:8px 12px;border-radius:8px;background:var(--gold-soft);color:var(--ink);display:grid;gap:2px}
 .status .bad{color:var(--warn);font-weight:600}
+.formula{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
 .compare{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px}
 .compare b{font-family:var(--mono);font-size:15px}
 .compare .solo b{color:var(--muted)}
@@ -147,6 +148,14 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline
         <div class="f dep-buy"><div class="top"><label for="rate">대출 금리</label><output id="o-rate"></output></div><input type="range" id="rate" min="1.5" max="6" step="0.1"></div>
         <div class="f dep-buy"><div class="top"><label for="term">대출 기간</label><output id="o-term"></output></div><input type="range" id="term" min="10" max="50" step="5"></div>
         <div class="f dep-buy"><div class="top"><label for="rent">지금 월세 (집 사면 안 냄)</label><output id="o-rent"></output></div><input type="range" id="rent" min="0" max="150" step="1"></div>
+        <div class="f dep-buy"><div class="top"><label for="support">집 살 때 지원받는 돈</label><output id="o-support"></output></div><input type="range" id="support" min="0" max="100000" step="500"><small>부모님 지원 등. 자기 돈 부분을 먼저 메우고, 남으면 대출을 줄여요. 집을 통째로 받으면 집값만큼 넣으세요.</small></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>중간에 들어오는 돈</legend>
+        <p class="hint">상속·증여, 퇴직금처럼 한 번에 들어오는 돈이나, 부업·연금처럼 매달 들어오는 돈을 넣어요. 나이는 내 나이 기준이에요.</p>
+        <div class="evs" id="incs"></div>
+        <div class="presets" id="inc-presets"></div>
       </fieldset>
 
       <fieldset>
@@ -173,6 +182,7 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline
             <div class="fact"><span class="tk-label">35살 때 자산</span><b id="t-35"></b></div>
             <div class="fact"><span class="tk-label">월 대출 상환</span><b id="t-pay"></b></div>
           </div>
+          <p class="formula" id="t-formula"></p>
           <div class="compare" id="t-compare"></div>
           <div class="status" id="t-status"></div>
         </div>
@@ -204,9 +214,9 @@ input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline
           <li>모든 금액은 <b>오늘 돈의 가치</b>예요. 수익률도 물가 상승을 뺀 값이에요.</li>
           <li>필요한 돈 = (한 달 생활비 × 12 + 1년 여행비) ÷ 꺼내 쓰는 비율. 은퇴 시점에 남은 대출도 갚을 수 있어야 은퇴로 봐요.</li>
           <li>둘이 합치면 그때까지 상대가 모은 돈(불어난 것 포함)이 더해지고, 그 뒤로 상대 저축도 매달 더해져요. "혼자 모았을 때"는 생활비·집·큰돈을 똑같이 두고 상대 돈만 뺀 비교예요.</li>
-          <li>큰돈은 그 나이에 한 번에 빠지고, 매달 드는 돈은 정한 기간 동안 저축에서 빠져요. 기간을 0으로 두면 계속 빠져요.</li>
-          <li>집을 사면 자기 돈(집값 − 대출)과 취득세·중개비 약 1.5%가 빠지고, 이후 월세 대신 대출 상환액을 내요. 자기 돈이 모자라면 모일 때까지 미뤄요.</li>
-          <li>국민연금, 퇴직금, 성과급, 축의금은 넣지 않았어요.</li>
+          <li>큰돈은 그 나이에 한 번에 빠지고, 매달 드는 돈은 정한 기간 동안 저축에서 빠져요. 들어오는 돈은 반대로 더해져요. 기간을 0으로 두면 계속 이어져요.</li>
+          <li>집을 사면 자기 돈(집값 − 대출)과 취득세·중개비 약 1.5%가 빠지고, 이후 월세 대신 대출 상환액을 내요. 지원받는 돈은 자기 돈 부분을 먼저 메우고 남으면 대출을 줄여요. 자기 돈이 모자라면 모일 때까지 미뤄요.</li>
+          <li>국민연금, 퇴직금, 축의금은 "중간에 들어오는 돈"에 넣어야 반영돼요.</li>
           <li>계산용 참고 도구이고 투자 조언이 아니에요.</li>
         </ul>
       </div>
@@ -220,7 +230,8 @@ const DEFAULTS = {
   age0: 28, assets0: 3000, save0: 100, g: 4, r: 4,
   couple: true, mergeAge: 31, pAssets: 3000, pSave: 100,
   live: 300, travel: 700, wr: 3.5,
-  buy: true, buyAge: 31, price: 40000, ltv: 70, rate: 3, term: 40, rent: 50,
+  buy: true, buyAge: 31, price: 40000, ltv: 70, rate: 3, term: 40, rent: 50, support: 0,
+  incomes: [],
   events: [
     { name: "결혼식", age: 31, amount: 2000, monthly: 0, years: 0 },
     { name: "차", age: 33, amount: 3000, monthly: 25, years: 10 }
@@ -229,7 +240,7 @@ const DEFAULTS = {
 const SAVE_HINT = "";/* ===== 기본값 끝 ===== */
 
 const $ = id => document.getElementById(id);
-const NUMS = ["age0","assets0","save0","g","r","mergeAge","pAssets","pSave","live","travel","wr","buyAge","price","ltv","rate","term","rent"];
+const NUMS = ["age0","assets0","save0","g","r","mergeAge","pAssets","pSave","live","travel","wr","buyAge","price","ltv","rate","term","rent","support"];
 const CHECKS = ["couple","buy"];
 const NOW_YEAR = new Date().getFullYear();
 const KEY = "freedom-ticket-v2";
@@ -240,9 +251,15 @@ const PRESETS = [
   { name: "이사·가전", amount: 1000, monthly: 0, years: 0, gap: 5 },
   { name: "긴 여행", amount: 800, monthly: 0, years: 0, gap: 7 }
 ];
+const INC_PRESETS = [
+  { name: "상속·증여", amount: 10000, monthly: 0, years: 0, gap: 20 },
+  { name: "퇴직금", amount: 3000, monthly: 0, years: 0, gap: 8 },
+  { name: "부업 수입", amount: 0, monthly: 30, years: 10, gap: 1 },
+  { name: "국민연금", amount: 0, monthly: 100, years: 0, gap: 39 }
+];
 if (SAVE_HINT) $("save0-hint").textContent = SAVE_HINT;
 
-let events = [];
+let events = [], incomes = [];
 
 function won(m){
   const neg = m < 0; m = Math.abs(m);
@@ -255,7 +272,8 @@ const fmt = {
   age0:v=>v+"살", assets0:v=>won(+v), save0:v=>v+"만", g:v=>v+"%", r:v=>v+"%",
   mergeAge:v=>v+"살", pAssets:v=>won(+v), pSave:v=>v+"만",
   live:v=>v+"만", travel:v=>won(+v), wr:v=>(+v).toFixed(1)+"%", buyAge:v=>v+"살",
-  price:v=>won(+v), ltv:v=>v+"%", rate:v=>(+v).toFixed(1)+"%", term:v=>v+"년", rent:v=>v+"만"
+  price:v=>won(+v), ltv:v=>v+"%", rate:v=>(+v).toFixed(1)+"%", term:v=>v+"년", rent:v=>v+"만",
+  support:v=>+v ? won(+v) : "없음"
 };
 
 function read(){
@@ -263,7 +281,9 @@ function read(){
   NUMS.forEach(k => p[k] = +$(k).value || 0);
   CHECKS.forEach(k => p[k] = $(k).checked);
   p.price = Math.max(5000, p.price);
-  p.events = events.map(e => ({ name: e.name || "지출", age: +e.age || 0, amount: +e.amount || 0, monthly: +e.monthly || 0, years: +e.years || 0 }));
+  const clean = (e, def) => ({ name: e.name || def, age: +e.age || 0, amount: +e.amount || 0, monthly: +e.monthly || 0, years: +e.years || 0 });
+  p.events = events.map(e => clean(e, "지출"));
+  p.incomes = incomes.map(e => clean(e, "수입"));
   return p;
 }
 
@@ -275,10 +295,17 @@ function payment(P, annual, years){
 function simulate(p, save0, couple){
   const rm = Math.pow(1 + p.r/100, 1/12) - 1;
   const target = (p.live*12 + p.travel) / (p.wr/100);
-  const loan = p.price * p.ltv/100;
-  const down = p.price - loan + p.price*0.015;
-  const pay = payment(loan, p.rate, p.term);
-  const evs = p.events.map(e => ({ ...e, m: Math.round((e.age - p.age0)*12) }));
+  // 집: 지원금이 자기 돈 부분을 먼저 메우고, 남으면 대출을 줄인다. 그래도 남으면 금융자산에 더한다.
+  const cost = p.price * 1.015, loanMax = p.price * p.ltv/100;
+  const support = p.buy ? p.support : 0;
+  const ownNeed = cost - loanMax;
+  const down = Math.max(0, ownNeed - support);
+  const loan = Math.max(0, Math.min(loanMax, cost - support));
+  const spare = Math.max(0, support - cost);
+  const pay = loan > 0 ? payment(loan, p.rate, p.term) : 0;
+  // 나가는 돈은 +, 들어오는 돈은 − 로 같은 목록에 넣는다
+  const evs = p.events.map(e => ({ ...e, m: Math.round((e.age - p.age0)*12) }))
+    .concat(p.incomes.map(e => ({ ...e, amount: -e.amount, monthly: -e.monthly, m: Math.round((e.age - p.age0)*12) })));
   let a = p.assets0, pa = p.pAssets, merged = false, bal = 0, bought = false, boughtAge = null, retireAge = null;
   let minA = Infinity, minAge = null;
   const pts = [];
@@ -291,7 +318,7 @@ function simulate(p, save0, couple){
     if (m % 12 === 0) pts.push({ age, a, need: target + bal });
     if (retireAge === null && m > 0 && a >= target + bal) retireAge = age;
     if (p.buy && !bought && age >= p.buyAge && a >= down){
-      a -= down; bal = loan; bought = true; boughtAge = age;
+      a -= down; a += spare; bal = loan; bought = true; boughtAge = age;
     }
     const gf = Math.pow(1 + p.g/100, Math.floor(m/12));
     let s = save0 * gf;
@@ -304,7 +331,7 @@ function simulate(p, save0, couple){
     }
     a = a*(1+rm) + s;
   }
-  return { pts, retireAge, target, pay, bought, boughtAge, down, minA, minAge };
+  return { pts, retireAge, target, pay, loan, bought, boughtAge, down, minA, minAge };
 }
 
 function needFor35(p){
@@ -334,11 +361,12 @@ function drawChart(res, solo, p){
   for (let a = Math.ceil(p.age0/stepX)*stepX; a <= endAge; a += stepX){
     g += `<text x="${x(a)}" y="${H-12}" text-anchor="middle">${a}살</text>`;
   }
-  // 큰돈 표시
-  p.events.filter(e => e.age >= p.age0 && e.age <= endAge).sort((u,v) => u.age - v.age).forEach((e,i) => {
+  // 큰돈 표시 (나가는 돈 빨강, 들어오는 돈 초록)
+  p.events.map(e => ({ ...e, c: "var(--warn)" })).concat(p.incomes.map(e => ({ ...e, c: "var(--accent)" })))
+    .filter(e => e.age >= p.age0 && e.age <= endAge).sort((u,v) => u.age - v.age).forEach((e,i) => {
     const ex = x(e.age);
-    g += `<line x1="${ex}" x2="${ex}" y1="${T-6}" y2="${H-B}" stroke="var(--warn)" stroke-opacity=".45" stroke-width="1" stroke-dasharray="3 4"/>`;
-    g += `<text class="ev-label" x="${ex+4}" y="${T-14 + (i%2)*12}" style="fill:var(--warn)">${esc(e.name)}</text>`;
+    g += `<line x1="${ex}" x2="${ex}" y1="${T-6}" y2="${H-B}" stroke="${e.c}" stroke-opacity=".45" stroke-width="1" stroke-dasharray="3 4"/>`;
+    g += `<text class="ev-label" x="${ex+4}" y="${T-14 + (i%2)*12}" style="fill:${e.c}">${esc(e.name)}</text>`;
   });
   const line = (arr, key) => arr.map((d,i) => `${i?"L":"M"}${x(d.age).toFixed(1)},${y(d[key]).toFixed(1)}`).join("");
   const area = line(pts,"a") + `L${x(pts[pts.length-1].age)},${y(0)}L${x(pts[0].age)},${y(0)}Z`;
@@ -387,6 +415,8 @@ function render(){
   $("t-to").textContent = ra === null ? "80+" : Math.ceil(ra);
   $("t-year").textContent = ra === null ? "80살 안에 도착 못 함" : `${NOW_YEAR + Math.ceil(ra - p.age0)}년쯤 경제적 자유`;
   $("t-target").textContent = won(res.target);
+  $("t-formula").textContent = `필요한 돈 = (생활비 월 ${won(p.live)} × 12 + 여행비 연 ${won(p.travel)}) ÷ ${p.wr.toFixed(1)}%` +
+    (p.buy && res.loan > 0 ? " · 은퇴할 때 남은 대출이 있으면 그만큼 더" : "");
   const at35 = res.pts.find(d => Math.round(d.age) === 35);
   $("t-35").textContent = at35 ? won(at35.a) : "—";
   $("t-pay").textContent = p.buy ? won(res.pay) : "—";
@@ -429,35 +459,44 @@ function render(){
   drawChart(res, solo, p);
 }
 
-/* 큰 지출 목록 */
-function renderEvents(){
-  $("evs").innerHTML = events.map((e,i) => `
+/* 큰돈 목록 (나가는 돈 / 들어오는 돈 공용) */
+const LISTS = {
+  out: { box: "evs", pre: "presets", get: () => events, presets: PRESETS, blank: "새 지출", id: "ev" },
+  in:  { box: "incs", pre: "inc-presets", get: () => incomes, presets: INC_PRESETS, blank: "새 수입", id: "inc" }
+};
+function renderList(k){
+  const L = LISTS[k], arr = L.get();
+  $(L.box).innerHTML = arr.map((e,i) => `
     <div class="ev" data-i="${i}">
-      <div class="head"><input type="text" id="ev-name-${i}" data-k="name" value="${esc(e.name)}" aria-label="지출 이름"><button type="button" class="del" data-del="${i}" aria-label="${esc(e.name)} 삭제">×</button></div>
+      <div class="head"><input type="text" id="${L.id}-name-${i}" data-k="name" value="${esc(e.name)}" aria-label="이름"><button type="button" class="del" data-del="${i}" aria-label="${esc(e.name)} 삭제">×</button></div>
       <div class="cells">
-        <label>나이<input type="number" id="ev-age-${i}" data-k="age" min="18" max="80" step="1" value="${e.age}"></label>
-        <label>한 번에(만)<input type="number" id="ev-amount-${i}" data-k="amount" min="0" step="100" value="${e.amount}"></label>
-        <label>매달(만)<input type="number" id="ev-monthly-${i}" data-k="monthly" min="0" step="5" value="${e.monthly}"></label>
-        <label>기간(년)<input type="number" id="ev-years-${i}" data-k="years" min="0" max="60" step="1" value="${e.years}"></label>
+        <label>나이<input type="number" id="${L.id}-age-${i}" data-k="age" min="18" max="90" step="1" value="${e.age}"></label>
+        <label>한 번에(만)<input type="number" id="${L.id}-amount-${i}" data-k="amount" min="0" step="100" value="${e.amount}"></label>
+        <label>매달(만)<input type="number" id="${L.id}-monthly-${i}" data-k="monthly" min="0" step="5" value="${e.monthly}"></label>
+        <label>기간(년)<input type="number" id="${L.id}-years-${i}" data-k="years" min="0" max="60" step="1" value="${e.years}"></label>
       </div>
     </div>`).join("") || `<p class="hint">아직 없어요. 아래에서 골라 추가해 보세요.</p>`;
 }
-$("evs").addEventListener("input", ev => {
-  const t = ev.target, box = t.closest(".ev"); if (!box || !t.dataset.k) return;
-  const i = +box.dataset.i; events[i][t.dataset.k] = t.dataset.k === "name" ? t.value : t.value;
-  render(); save();
-});
-$("evs").addEventListener("click", ev => {
-  const d = ev.target.closest("[data-del]"); if (!d) return;
-  events.splice(+d.dataset.del, 1); renderEvents(); render(); save();
-});
-$("presets").innerHTML = PRESETS.map((x,i) => `<button type="button" class="chip" data-pre="${i}">+ ${x.name}</button>`).join("") + `<button type="button" class="chip" data-pre="-1">+ 직접 입력</button>`;
-$("presets").addEventListener("click", ev => {
-  const b = ev.target.closest("[data-pre]"); if (!b) return;
-  const i = +b.dataset.pre, age0 = +$("age0").value;
-  const x = i < 0 ? { name: "새 지출", amount: 1000, monthly: 0, years: 0, gap: 3 } : PRESETS[i];
-  events.push({ name: x.name, age: age0 + x.gap, amount: x.amount, monthly: x.monthly, years: x.years });
-  renderEvents(); render(); save();
+function renderEvents(){ renderList("out"); renderList("in"); }
+Object.keys(LISTS).forEach(k => {
+  const L = LISTS[k];
+  $(L.box).addEventListener("input", ev => {
+    const t = ev.target, box = t.closest(".ev"); if (!box || !t.dataset.k) return;
+    L.get()[+box.dataset.i][t.dataset.k] = t.value;
+    render(); save();
+  });
+  $(L.box).addEventListener("click", ev => {
+    const d = ev.target.closest("[data-del]"); if (!d) return;
+    L.get().splice(+d.dataset.del, 1); renderList(k); render(); save();
+  });
+  $(L.pre).innerHTML = L.presets.map((x,i) => `<button type="button" class="chip" data-pre="${i}">+ ${x.name}</button>`).join("") + `<button type="button" class="chip" data-pre="-1">+ 직접 입력</button>`;
+  $(L.pre).addEventListener("click", ev => {
+    const b = ev.target.closest("[data-pre]"); if (!b) return;
+    const i = +b.dataset.pre, age0 = +$("age0").value;
+    const x = i < 0 ? { name: L.blank, amount: 1000, monthly: 0, years: 0, gap: 3 } : L.presets[i];
+    L.get().push({ name: x.name, age: age0 + x.gap, amount: x.amount, monthly: x.monthly, years: x.years });
+    renderList(k); render(); save();
+  });
 });
 
 /* 저장 */
@@ -465,9 +504,10 @@ function apply(s){
   NUMS.forEach(k => { if (s[k] !== undefined) $(k).value = s[k]; });
   CHECKS.forEach(k => { if (s[k] !== undefined) $(k).checked = s[k]; });
   if (Array.isArray(s.events)) events = s.events.map(e => ({ ...e }));
+  if (Array.isArray(s.incomes)) incomes = s.incomes.map(e => ({ ...e }));
 }
 function save(){
-  try { const s = {}; NUMS.forEach(k => s[k] = $(k).value); CHECKS.forEach(k => s[k] = $(k).checked); s.events = events; localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){}
+  try { const s = {}; NUMS.forEach(k => s[k] = $(k).value); CHECKS.forEach(k => s[k] = $(k).checked); s.events = events; s.incomes = incomes; localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){}
 }
 function load(){
   try {
