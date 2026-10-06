@@ -599,16 +599,39 @@
    "id": "kotra-2026",
    "org": "KOTRA",
    "short": "KOTRA",
-   "role": "통상직 5직급 54명 · 전국·해외 순환",
-   "status": "지원 검토",
+   "role": "통상직 5직급 일반계열(비수도권) 16명 · 국내+해외 순환",
    "stages": [
     {
      "type": "서류",
      "label": "원서 마감",
-     "note": "TOEIC 850↑ · 필기 영어30+경제논술30+선택40",
-     "result": "pending",
+     "note": "제출 완료 (10.7) · 서류 심사 없음(자격 확인만)",
+     "result": "done",
      "date": "2026-10-07",
      "time": "18:00"
+    },
+    {
+     "type": "필기",
+     "label": "1차 인성·NCS",
+     "date": "2026-10-24",
+     "note": "의사소통·조직이해·자원관리·정보·수리·문제해결 · 8배수 · ⚠️ KSA·공항공사 필기(서류 합격 시)와 같은 날",
+     "result": "pending"
+    },
+    {
+     "type": "필기",
+     "label": "2차 필기",
+     "date": "2026-11-07",
+     "note": "영어 30 + 경제논술 30 + 직무역량(문제해결 논술) 40 · 4배수 · ⚠️ 신협 필기와 같은 날",
+     "result": "pending"
+    },
+    {
+     "type": "면접",
+     "label": "3차 외국어회화·역량면접 (12월 초)",
+     "result": "pending"
+    },
+    {
+     "type": "최종",
+     "label": "4차 최종면접 (12월 중)",
+     "result": "pending"
     }
    ],
    "url": "https://job.alio.go.kr/recruitview.do?idx=305112"
