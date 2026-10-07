@@ -1,97 +1,7 @@
 {
- "updated": "2026-10-06 11:03",
- "fetched": 518,
+ "updated": "2026-10-07 10:12",
+ "fetched": 483,
  "jobs": [
-  {
-   "id": "alio-305198",
-   "org": "한국장애인고용공단",
-   "role": "2026년 제2차 한국장애인고용공단 직원 채용",
-   "status": "새 공고",
-   "auto": true,
-   "score": 13,
-   "url": "https://kead.careerlink.kr/",
-   "memo": "추천 13점 · 서울 10 · 지역인재 가점 +2 · 사무 +1\n정규직,무기계약직,청년인턴(채용형) · 신입+경력 · 71명 · 서울,부산,대구,인천,대전,울산,세종,경기,강원,충북,충남,전북,전남광주,경북,경남,제주\n⚠️ 채용형 인턴 — 인턴 기간 급여 확인",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-10-06",
-     "note": "접수 09.21~"
-    }
-   ]
-  },
-  {
-   "id": "alio-305147",
-   "org": "(재)우체국금융개발원",
-   "role": "우체국금융개발원 2026년 9차 공개채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 13,
-   "url": "https://www.posid.or.kr/",
-   "memo": "추천 13점 · 서울 10 · 지역인재 가점 +2 · 사무 +1\n정규직,무기계약직 · 신입+경력 · 24명 · 서울,부산,인천,대전,전남광주",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-10-06",
-     "note": "접수 09.22~"
-    }
-   ]
-  },
-  {
-   "id": "alio-305190",
-   "org": "(주)한국가스기술공사",
-   "role": "2026년 하반기 신입직원 공개채용",
-   "status": "새 공고",
-   "auto": true,
-   "score": 12,
-   "url": "https://kogas-tech.saramin.co.kr/",
-   "memo": "추천 12점 · 서울 10 · 지역인재 가점 +2\n정규직 · 신입 · 91명 · 서울,부산,대구,인천,대전,울산,세종,경기,강원,충북,충남,전북,전남광주,경북,경남,제주",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-10-06",
-     "note": "접수 09.21~"
-    }
-   ]
-  },
-  {
-   "id": "alio-305222",
-   "org": "국가평생교육진흥원",
-   "role": "[NCS기반 블라인드 채용] 2026년 국가평생교육진흥원 정규직 채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 11,
-   "url": "https://www.nile.or.kr/usr/wap/detail.do?app=11626&seq=2196162&lang=ko",
-   "memo": "추천 11점 · 서울 10 · 사무 +1\n정규직 · 신입+경력 · 9명 · 서울",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-10-06",
-     "note": "접수 09.22~"
-    }
-   ]
-  },
-  {
-   "id": "alio-305253",
-   "org": "한국교육학술정보원",
-   "role": "2026년 제6차 직원(정규직) 채용",
-   "status": "새 공고",
-   "auto": true,
-   "score": 6,
-   "url": "https://keris.recruiter.co.kr",
-   "memo": "추천 6점 · 대구 5 · 사무 +1\n정규직 · 신입 · 5명 · 대구",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-10-06",
-     "note": "접수 09.22~"
-    }
-   ]
-  },
   {
    "id": "alio-305321",
    "org": "국가철도공단",
@@ -449,6 +359,24 @@
      "label": "원서 마감",
      "date": "2026-10-19",
      "note": "접수 10.02~"
+    }
+   ]
+  },
+  {
+   "id": "alio-305752",
+   "org": "한국언론진흥재단",
+   "role": "한국언론진흥재단 2026년 2차 정규직 신입사원 채용 공고",
+   "status": "새 공고",
+   "auto": true,
+   "score": 11,
+   "url": "https://kpf.or.kr/front/board/boardContentsView.do?board_id=268&contents_id=74a9591e297944da81d66eb34493e7c5&link_g_topmenu_id=ccd1e88d6d7345cca51f20ce9f56d652&link_g_submenu_id=0017607aa5cc49deb9e877eff2ba59e8&link_g_homepage=F",
+   "memo": "추천 11점 · 서울 10 · 사무 +1\n정규직 · 신입 · 11명 · 서울",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-10-20",
+     "note": "접수 10.06~"
     }
    ]
   }
