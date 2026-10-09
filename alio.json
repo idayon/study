@@ -1,25 +1,7 @@
 {
- "updated": "2026-10-08 10:33",
- "fetched": 464,
+ "updated": "2026-10-09 10:44",
+ "fetched": 445,
  "jobs": [
-  {
-   "id": "alio-305295",
-   "org": "인천항만공사",
-   "role": "2026년 하반기 인천항만공사 채용형 인턴 채용공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 6,
-   "url": "https://www.icpa.or.kr/recruit",
-   "memo": "추천 6점 · 인천 5 · 사무 +1\n청년인턴(채용형) · 신입 · 10명 · 인천\n⚠️ 채용형 인턴 — 인턴 기간 급여 확인",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-10-08",
-     "note": "접수 09.23~"
-    }
-   ]
-  },
   {
    "id": "alio-305397",
    "org": "한국장애인개발원",
@@ -251,6 +233,24 @@
      "label": "원서 마감",
      "date": "2026-10-19",
      "note": "접수 10.02~"
+    }
+   ]
+  },
+  {
+   "id": "alio-305856",
+   "org": "근로복지공단",
+   "role": "[근로복지공단 울산병원] 의료직 채용 공고",
+   "status": "새 공고",
+   "auto": true,
+   "score": 5,
+   "url": "https://www.comwel.or.kr/recruit/hp/pblanc/pblancList.do",
+   "memo": "추천 5점 · 울산 5\n정규직 · 신입 · 99명 · 울산",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-10-19",
+     "note": "접수 10.08~"
     }
    ]
   },
