@@ -641,6 +641,18 @@
    "url": "https://job.alio.go.kr/recruitview.do?idx=305112"
   },
   {
+   "id": "tuja-47",
+   "org": "투자자산운용사 제47회 (금융투자협회)",
+   "short": "투운사",
+   "role": "자격시험 · 회사 대표 권유",
+   "url": "https://license.kofia.or.kr",
+   "stages": [
+    { "type": "서류", "date": "2026-10-12", "end": "2026-10-16", "label": "원서 접수 (5일뿐)", "note": "license.kofia.or.kr · 응시료 결제는 직접", "result": "pending" },
+    { "type": "필기", "date": "2026-11-08", "label": "시험 (일)", "note": "⚠️ 전날 11.7 신협/KOTRA 2차/벤처투자 필기 · 11.1 철도 필기", "result": "pending" },
+    { "type": "최종", "date": "2026-11-19", "label": "합격 발표", "result": "pending" }
+   ]
+  },
+  {
    "id": "kvic-2026-3",
    "org": "한국벤처투자",
    "short": "벤처투자",
