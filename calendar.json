@@ -6,6 +6,8 @@
    "org": "한국장학재단",
    "short": "장학재단",
    "role": "종합직 5급 일반행정 (8명)",
+   "hidden": true,
+   "memo": "탈락",
    "stages": [
     {
      "type": "서류",
@@ -62,6 +64,8 @@
    "org": "인천국제공항공사",
    "short": "인천공항",
    "role": "일반직 사무(경영) 7명",
+   "hidden": true,
+   "memo": "탈락",
    "stages": [
     {
      "type": "서류",
@@ -653,7 +657,7 @@
    "role": "자격시험 · 회사 대표 권유",
    "url": "https://license.kofia.or.kr",
    "stages": [
-    { "type": "서류", "date": "2026-10-12", "end": "2026-10-16", "label": "원서 접수 (5일뿐)", "note": "license.kofia.or.kr · 응시료 결제는 직접", "result": "pending" },
+    { "type": "서류", "date": "2026-10-12", "end": "2026-10-16", "label": "원서 접수", "note": "접수 완료", "result": "done" },
     { "type": "필기", "date": "2026-11-08", "label": "시험 (일)", "note": "⚠️ 전날 11.7 신협/KOTRA 2차/벤처투자 필기 · 11.1 철도 필기", "result": "pending" },
     { "type": "최종", "date": "2026-11-19", "label": "합격 발표", "result": "pending" }
    ]
@@ -664,7 +668,8 @@
    "short": "벤처투자",
    "role": "정규직 신입 일반 심사역(사원) 13명 · 서울",
    "url": "https://job.alio.go.kr/recruitview.do?idx=305568",
-   "status": "지원 검토",
+   "hidden": true,
+   "status": "미지원",
    "memo": "서류 = 자소서 정성 80 + 어학 정량 20 · 50배수 · 비수도권 지역인재 서류 3% 가점 · 어학 최저 TOEIC 760 / OPIc IM2",
    "stages": [
     { "type": "서류", "date": "2026-10-16", "time": "15:00", "label": "원서 마감", "note": "kvic.incruit.com", "result": "pending" },
@@ -866,7 +871,7 @@
    "org": "한국연구재단",
    "short": "연구재단",
    "role": "연구직(원급) ICT·융합 3명 · 대전 본원 · 채용형 인턴 6개월(학사 월 250만) 후 정규직 전환",
-   "url": "https://recruit.incruit.com/nrf2026/job/2609010002",
+   "memo": "9.28 제출 완료 · TOEIC 870(2026.03.29)으로 영어 요건 충족 · 서류 결과 10.23 발표",
    "memo": "9.28 제출 완료 · TOEIC 870(2026.03.29)으로 영어 요건 충족",
    "stages": [
     {
@@ -955,6 +960,8 @@
    "org": "건설근로자공제회",
    "short": "건근공",
    "role": "제2차 일반직 6급 일반행정 2명 · 본사 서울 을지로 · 월 362만 내외",
+   "hidden": true,
+   "memo": "미지원",
    "stages": [
     {
      "type": "서류",
