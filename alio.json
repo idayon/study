@@ -1,61 +1,7 @@
 {
- "updated": "2026-10-19 08:55",
- "fetched": 473,
+ "updated": "2026-10-20 09:54",
+ "fetched": 456,
  "jobs": [
-  {
-   "id": "alio-305542",
-   "org": "한국농어촌공사",
-   "role": "2026년도 직무중심 신입사원(5급, 6급) 채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 12,
-   "url": "https://www.ekr.or.kr/planweb/board/view.krc?dataUid=8a8bb352a08a300001a0f0b32faf7d9e&page=1&boardUid=402880317cc0644a017cc5e8000f06b7&contentUid=8a8bb3529665d7140199501cd3ef6280&searchType=&keyword=&categoryUid1=&categoryUid2=8a8bb3529665d714019951996437",
-   "memo": "추천 12점 · 대전 9 · 지역인재 가점 +2 · 사무 +1\n정규직 · 신입 · 329명 · 대구,인천,대전,울산,세종,경기,강원,충북,충남,전북,전남광주,경북,경남,제주",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-10-19",
-     "note": "접수 09.30~"
-    }
-   ]
-  },
-  {
-   "id": "alio-305695",
-   "org": "한국의료기기안전정보원",
-   "role": "2026년 제4차 한국의료기기안전정보원 직원(정규직 및 무기직) 채용공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 11,
-   "url": "https://dware.intojob.co.kr/main/nids.jsp",
-   "memo": "추천 11점 · 서울 10 · 사무 +1\n정규직,무기계약직 · 신입+경력 · 9명 · 서울",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-10-19",
-     "note": "접수 10.02~"
-    }
-   ]
-  },
-  {
-   "id": "alio-305856",
-   "org": "근로복지공단",
-   "role": "[근로복지공단 울산병원] 의료직 채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 5,
-   "url": "https://www.comwel.or.kr/recruit/hp/pblanc/pblancList.do",
-   "memo": "추천 5점 · 울산 5\n정규직 · 신입 · 99명 · 울산",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-10-19",
-     "note": "접수 10.08~"
-    }
-   ]
-  },
   {
    "id": "alio-305752",
    "org": "한국언론진흥재단",
@@ -197,6 +143,24 @@
      "label": "원서 마감",
      "date": "2026-11-02",
      "note": "접수 10.16~"
+    }
+   ]
+  },
+  {
+   "id": "alio-306146",
+   "org": "한국건강증진개발원",
+   "role": "한국건강증진개발원 2026년 하반기 직원(일반직) 채용 공고",
+   "status": "새 공고",
+   "auto": true,
+   "score": 10,
+   "url": "https://khepi-hr.jobnlab.co.kr/",
+   "memo": "추천 10점 · 서울 10\n정규직 · 신입+경력 · 7명 · 서울",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-11-02",
+     "note": "접수 10.19~"
     }
    ]
   }
