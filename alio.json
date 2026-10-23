@@ -1,6 +1,6 @@
 {
- "updated": "2026-10-22 09:25",
- "fetched": 468,
+ "updated": "2026-10-23 09:23",
+ "fetched": 471,
  "jobs": [
   {
    "id": "alio-305907",
@@ -183,6 +183,24 @@
    ]
   },
   {
+   "id": "alio-306262",
+   "org": "국방기술품질원",
+   "role": "국방기술품질원 2026년 하반기 정기채용(임용후보자(정규직, 무기사업직))",
+   "status": "새 공고",
+   "auto": true,
+   "score": 11,
+   "url": "https://dtaq.re.kr/ko/career/notice.jsp",
+   "memo": "추천 11점 · 부산 9 · 지역인재 가점 +2\n정규직,무기계약직 · 신입+경력 · 11명 · 부산,대전,전남광주,경남",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-11-05",
+     "note": "접수 10.22~"
+    }
+   ]
+  },
+  {
    "id": "alio-306170",
    "org": "대한법률구조공단",
    "role": "주택 및 상가건물임대차분쟁조정위원회 실무관 채용 공고",
@@ -197,6 +215,78 @@
      "label": "원서 마감",
      "date": "2026-11-05",
      "note": "접수 10.20~"
+    }
+   ]
+  },
+  {
+   "id": "alio-306272",
+   "org": "울산항만공사",
+   "role": "NCS 및 블라인드 기반 직무능력중심 2026년 하반기 신입직원(채용형 인턴) 채용 공고",
+   "status": "새 공고",
+   "auto": true,
+   "score": 6,
+   "url": "https://www.upa.or.kr/portal/board/post/view.do?bcIdx=668&mid=0405000000&&idx=16710",
+   "memo": "추천 6점 · 울산 5 · 사무 +1\n정규직,청년인턴(채용형) · 신입 · 7명 · 울산\n⚠️ 채용형 인턴 — 인턴 기간 급여 확인",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-11-05",
+     "note": "접수 10.22~"
+    }
+   ]
+  },
+  {
+   "id": "alio-306250",
+   "org": "근로복지공단",
+   "role": "[울산병원] 기술기능직(기술_환경관리) 채용 공고",
+   "status": "새 공고",
+   "auto": true,
+   "score": 5,
+   "url": "https://www.comwel.or.kr/recruit/hp/main.do",
+   "memo": "추천 5점 · 울산 5\n정규직 · 신입+경력 · 1명 · 울산",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-11-05",
+     "note": "접수 10.22~"
+    }
+   ]
+  },
+  {
+   "id": "alio-306258",
+   "org": "한국산업기술진흥원",
+   "role": "[한국산업기술진흥원] 2026년 하반기 전문분야 신규직원 공개채용 공고 ",
+   "status": "새 공고",
+   "auto": true,
+   "score": 11,
+   "url": "https://www.kiat.or.kr",
+   "memo": "추천 11점 · 서울 10 · 사무 +1\n정규직 · 신입+경력 · 2명 · 서울",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-11-06",
+     "note": "접수 10.22~"
+    }
+   ]
+  },
+  {
+   "id": "alio-306254",
+   "org": "영화진흥위원회",
+   "role": "2026년 하반기 영화진흥위원회 정규직 공개채용 공고",
+   "status": "새 공고",
+   "auto": true,
+   "score": 10,
+   "url": "https://kofic.or.kr/kofic/business/board/selectBoardDetail.do?boardNumber=4&boardSeqNumber=76182",
+   "memo": "추천 10점 · 부산 9 · 사무 +1\n정규직 · 신입 · 5명 · 부산",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-11-06",
+     "note": "접수 10.22~"
     }
    ]
   }
