@@ -1,79 +1,7 @@
 {
- "updated": "2026-11-02 10:15",
- "fetched": 499,
+ "updated": "2026-11-03 12:18",
+ "fetched": 509,
  "jobs": [
-  {
-   "id": "alio-306106",
-   "org": "한국재정정보원",
-   "role": "한국재정정보원 2026년도 제5차 채용(정규직, 체험형 청년인턴)",
-   "status": "새 공고",
-   "auto": true,
-   "score": 13,
-   "url": "https://fis.kr/",
-   "memo": "추천 13점 · 서울 10 · 지역인재 가점 +2 · 사무 +1\n정규직,청년인턴(체험형) · 신입+경력 · 52명 · 서울,부산,대구,대전,세종,경기,강원,전남광주\n⚠️ 채용형 인턴 — 인턴 기간 급여 확인",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-02",
-     "note": "접수 10.16~"
-    }
-   ]
-  },
-  {
-   "id": "alio-306146",
-   "org": "한국건강증진개발원",
-   "role": "한국건강증진개발원 2026년 하반기 직원(일반직) 채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 10,
-   "url": "https://khepi-hr.jobnlab.co.kr/",
-   "memo": "추천 10점 · 서울 10\n정규직 · 신입+경력 · 7명 · 서울",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-02",
-     "note": "접수 10.19~"
-    }
-   ]
-  },
-  {
-   "id": "alio-306303",
-   "org": "근로복지공단",
-   "role": "[인천병원] 의료직(산업위생사) 6급 채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 5,
-   "url": "https://www.comwel.or.kr/recruit/hp/main.do",
-   "memo": "추천 5점 · 인천 5\n정규직 · 신입 · 1명 · 인천",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-02",
-     "note": "접수 10.23~"
-    }
-   ]
-  },
-  {
-   "id": "alio-306295",
-   "org": "근로복지공단",
-   "role": "[순천병원] 의료직(산업위생사) 6급 채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 5,
-   "url": "https://www.comwel.or.kr/recruit/hp/main.do",
-   "memo": "추천 5점 · 광주 5\n정규직 · 신입 · 1명 · 전남광주",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-02",
-     "note": "접수 10.23~"
-    }
-   ]
-  },
   {
    "id": "alio-306179",
    "org": "여수광양항만공사",
@@ -395,6 +323,24 @@
      "label": "원서 마감",
      "date": "2026-11-13",
      "note": "접수 10.29~"
+    }
+   ]
+  },
+  {
+   "id": "alio-306612",
+   "org": "한국해양조사협회",
+   "role": "한국해양조사협회 2026년 제4차 직원 공개 채용 공고(일반직)",
+   "status": "새 공고",
+   "auto": true,
+   "score": 11,
+   "url": "https://www.khra.kr/hmpg/noto/note/bordContDetail.do?mode=W&bbs_no=5&pst_no=C533B35D5A924DDE8427B252ADA3A5D3",
+   "memo": "추천 11점 · 서울 10 · 사무 +1\n정규직 · 신입+경력 · 4명 · 서울",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-11-17",
+     "note": "접수 11.02~"
     }
    ]
   },
