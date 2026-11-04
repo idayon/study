@@ -328,6 +328,8 @@
    "org": "신협중앙회",
    "short": "신협",
    "role": "일반직군 신입 (경영지원·검사감독·기획총무 등)",
+   "hidden": true,
+   "memo": "탈락",
    "url": "https://cu2.saramin.co.kr/service/cu2/3984/applicant/apply/recruit_default.asp",
    "stages": [
     {
@@ -614,6 +616,8 @@
    "org": "KOTRA",
    "short": "KOTRA",
    "role": "통상직 5직급 일반계열(비수도권) 16명 · 국내+해외 순환",
+   "hidden": true,
+   "memo": "탈락",
    "stages": [
     {
      "type": "서류",
@@ -885,6 +889,21 @@
      "note": "공고 대기 · 10월 이후 예정",
      "result": "pending"
     }
+   ]
+  },
+  {
+   "id": "sk-aigen-1",
+   "org": "SK AIGEN 1기 (AI 인재육성 프로그램)",
+   "short": "SK AIGEN",
+   "role": "22개월 Full Time 비학위 과정 (2027.3~2028.12) · 50명 내외 · 월 300만 성장지원금 · 직장 병행 불가",
+   "url": "https://aigen.sk.com/",
+   "status": "지원 예정",
+   "stages": [
+    { "type": "서류", "date": "2026-11-15", "time": "23:00", "label": "지원서·포트폴리오 마감", "note": "접수 11.1 09:00~", "result": "pending" },
+    { "type": "면접", "label": "AI 인터뷰 (11월 중)", "result": "pending" },
+    { "type": "필기", "label": "기본 사고역량 확인 (12월 초)", "result": "pending" },
+    { "type": "면접", "label": "프로젝트 면접 (12월 중)", "result": "pending" },
+    { "type": "최종", "label": "최종 선발 (2027년 1월)", "result": "pending" }
    ]
   },
   {
