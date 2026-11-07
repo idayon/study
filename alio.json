@@ -1,43 +1,7 @@
 {
- "updated": "2026-11-06 10:59",
- "fetched": 512,
+ "updated": "2026-11-07 10:36",
+ "fetched": 504,
  "jobs": [
-  {
-   "id": "alio-306258",
-   "org": "한국산업기술진흥원",
-   "role": "[한국산업기술진흥원] 2026년 하반기 전문분야 신규직원 공개채용 공고 ",
-   "status": "새 공고",
-   "auto": true,
-   "score": 11,
-   "url": "https://www.kiat.or.kr",
-   "memo": "추천 11점 · 서울 10 · 사무 +1\n정규직 · 신입+경력 · 2명 · 서울",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-06",
-     "note": "접수 10.22~"
-    }
-   ]
-  },
-  {
-   "id": "alio-306254",
-   "org": "영화진흥위원회",
-   "role": "2026년 하반기 영화진흥위원회 정규직 공개채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 10,
-   "url": "https://kofic.or.kr/kofic/business/board/selectBoardDetail.do?boardNumber=4&boardSeqNumber=76182",
-   "memo": "추천 10점 · 부산 9 · 사무 +1\n정규직 · 신입 · 5명 · 부산",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-06",
-     "note": "접수 10.22~"
-    }
-   ]
-  },
   {
    "id": "alio-306346",
    "org": "한국해양수산연수원",
