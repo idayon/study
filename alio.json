@@ -1,43 +1,7 @@
 {
- "updated": "2026-11-09 10:25",
- "fetched": 508,
+ "updated": "2026-11-10 12:57",
+ "fetched": 495,
  "jobs": [
-  {
-   "id": "alio-306346",
-   "org": "한국해양수산연수원",
-   "role": "한국해양수산연수원 2026년도 제3차 정규직 직원채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 9,
-   "url": "https://kimft.recruiter.co.kr",
-   "memo": "추천 9점 · 부산 9\n정규직,무기계약직 · 신입+경력 · 27명 · 부산,전남광주",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-09",
-     "note": "접수 10.26~"
-    }
-   ]
-  },
-  {
-   "id": "alio-306339",
-   "org": "국민건강보험공단",
-   "role": "2026년도 제3차 국민건강보험공단 전문인력 채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 6,
-   "url": "http://www.nhis.or.kr/nhis/together/wbhaea02700m01.do?mode=view&articleNo=11014491",
-   "memo": "추천 6점 · 광주 5 · 사무 +1\n정규직 · 신입+경력 · 15명 · 강원,전남광주",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-09",
-     "note": "접수 10.26~"
-    }
-   ]
-  },
   {
    "id": "alio-306411",
    "org": "한국개발연구원",
