@@ -897,9 +897,8 @@
    "short": "SK AIGEN",
    "role": "22개월 Full Time 비학위 과정 (2027.3~2028.12) · 50명 내외 · 월 300만 성장지원금 · 직장 병행 불가",
    "url": "https://aigen.sk.com/",
-   "status": "지원 예정",
    "stages": [
-    { "type": "서류", "date": "2026-11-15", "time": "23:00", "label": "지원서·포트폴리오 마감", "note": "접수 11.1 09:00~ · 11.14 제출 목표 · 메인 PDF(DB 전산화) + 추가 PDF(공부 웹앱)", "result": "pending" },
+    { "type": "서류", "date": "2026-11-15", "time": "23:00", "label": "지원서·포트폴리오 마감", "note": "제출 완료 · 1지망 기술/탐구, 2지망 창업/비즈니스 · 포트폴리오_최종.pdf", "result": "done" },
     { "type": "면접", "label": "AI 인터뷰 (11월 중)", "result": "pending" },
     { "type": "필기", "label": "기본 사고역량 확인 (12월 초)", "result": "pending" },
     { "type": "면접", "label": "프로젝트 면접 (12월 중)", "result": "pending" },
