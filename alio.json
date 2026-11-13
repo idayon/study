@@ -1,25 +1,7 @@
 {
- "updated": "2026-11-12 11:41",
- "fetched": 504,
+ "updated": "2026-11-13 11:22",
+ "fetched": 510,
  "jobs": [
-  {
-   "id": "alio-306433",
-   "org": "한국청소년정책연구원",
-   "role": "[채용공고 2026-15호] 정규직 채용 공고",
-   "status": "새 공고",
-   "auto": true,
-   "score": 11,
-   "url": "https://nypi.recruiter.co.kr/bbs/appsite/notice/read/917341",
-   "memo": "추천 11점 · 세종 9 · 지역인재 가점 +2\n정규직 · 신입 · 2명 · 세종",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-12",
-     "note": "접수 10.28~"
-    }
-   ]
-  },
   {
    "id": "alio-306508",
    "org": "제주국제자유도시개발센터",
