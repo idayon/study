@@ -1,25 +1,7 @@
 {
- "updated": "2026-11-17 13:19",
- "fetched": 506,
+ "updated": "2026-11-18 12:18",
+ "fetched": 515,
  "jobs": [
-  {
-   "id": "alio-306612",
-   "org": "한국해양조사협회",
-   "role": "한국해양조사협회 2026년 제4차 직원 공개 채용 공고(일반직)",
-   "status": "새 공고",
-   "auto": true,
-   "score": 11,
-   "url": "https://www.khra.kr/hmpg/noto/note/bordContDetail.do?mode=W&bbs_no=5&pst_no=C533B35D5A924DDE8427B252ADA3A5D3",
-   "memo": "추천 11점 · 서울 10 · 사무 +1\n정규직 · 신입+경력 · 4명 · 서울",
-   "stages": [
-    {
-     "type": "서류",
-     "label": "원서 마감",
-     "date": "2026-11-17",
-     "note": "접수 11.02~"
-    }
-   ]
-  },
   {
    "id": "alio-306815",
    "org": "해양수산과학기술진흥원",
@@ -53,6 +35,24 @@
      "label": "원서 마감",
      "date": "2026-12-01",
      "note": "접수 11.16~"
+    }
+   ]
+  },
+  {
+   "id": "alio-307141",
+   "org": "한국개발연구원",
+   "role": "2026년 4분기 2차 한국개발연구원(KDI) 직원 채용 공고(연구직)",
+   "status": "새 공고",
+   "auto": true,
+   "score": 11,
+   "url": "https://www.kdi.re.kr/share/recruitView?rec_no=312&pg=1&rec_type=",
+   "memo": "추천 11점 · 세종 9 · 지역인재 가점 +2\n정규직 · 신입+경력 · 3명 · 세종",
+   "stages": [
+    {
+     "type": "서류",
+     "label": "원서 마감",
+     "date": "2026-12-01",
+     "note": "접수 11.17~"
     }
    ]
   },
