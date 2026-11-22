@@ -702,6 +702,7 @@
     { "type": "서류", "date": "2026-10-27", "label": "원서 마감", "note": "semas.plusrecruit.co.kr", "result": "pending" }
    ]
   },
+$s
   {
    "id": "kvic-2026-3",
    "org": "한국벤처투자",
@@ -910,6 +911,7 @@
    "org": "한국산업기술진흥원",
    "short": "KIAT",
    "role": "2026 하반기 전문분야 AI정보화 1명 · 서울 강남 본원",
+   "hidden": true,
    "url": "https://job.alio.go.kr/recruitview.do?idx=306258",
    "memo": "필기 없음: 서류(경력5·자격증10·기술서35·자소서50, 70점↑ 7배수) → 인성검사 → 면접 · 가점 11점(청년인턴 수료 4 · 비수도권 3 · 청년 3 · 한국사 1) · 입사 12.28",
    "stages": [
@@ -919,8 +921,8 @@
      "time": "14:00",
      "label": "원서 마감",
      "announce": "2026-11-17",
-     "note": "제출 완료 (11.3) · AI정보화",
-     "result": "done"
+     "note": "서류 탈락 (내 점수 59 · 커트라인 95)",
+     "result": "fail"
     },
     {
      "type": "필기",
